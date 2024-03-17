@@ -1,0 +1,15 @@
+{# templates/galerie/index.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Galerie d'images</title>
+    <link href="{{ asset('css/galerie.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <div class="galerie">
+        {% for image in images %}
+            <img src="{{ asset('images/' ~ image) }}" alt="Image de galerie">
+        {% endfor %}
+    </div>
+</body>
+</html>
