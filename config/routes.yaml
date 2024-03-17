@@ -1,3 +1,6 @@
-controllers:
-    resource: ../src/Controller/
-    type: attribute
+galerie:
+    path: /Galerie/{page}
+    controller: App\Controller\GalerieController::index
+    defaults: { page: 1 }
+    requirements:
+        page: '\d+'
