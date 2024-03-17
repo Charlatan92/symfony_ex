@@ -21,6 +21,7 @@ class GalerieController extends AbstractController
 
         return $this->render('galerie/index.html.twig', [
             'images' => $images,
+            'page' => $page,
         ]);
     }
 }
