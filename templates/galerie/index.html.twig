@@ -1,13 +1,60 @@
 {# templates/galerie/index.html.twig #}
+{% extends 'base.html.twig' %}
 
-{# Affichage des images #}
+{% block body %}
+<h1>Galerie d'images</h1>
+
+{# Affichage des images avec une grille responsive #}
 <div class="galerie">
     {% for image in images %}
-        <img src="{{ asset('images/' ~ image) }}" alt="Image">
+        <div class="image">
+            <h2>{{ image.titre }}</h2>
+            <p>Auteur : {{ image.auteur }}</p>
+            <img src="{{ image.url }}" alt="Image : {{ image.titre }}" class="responsive-image">
+        </div>
+        {% if loop.index is divisible by(3) and not loop.last %}
+            </div><div class="galerie">
+        {% endif %}
+    {% else %}
+        <p>Aucune image disponible.</p>
     {% endfor %}
 </div>
 
-{# Lien vers la page suivante #}
+{# Navigation #}
 <div class="navigation">
+    {% if page > 1 %}
+        <a href="{{ path('galerie', {'page': page - 1}) }}">Page précédente</a>
+    {% endif %}
     <a href="{{ path('galerie', {'page': page + 1}) }}">Page suivante</a>
 </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .galerie {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    .image {
+        flex-basis: calc(33% - 20px); /* Ajustement pour les marges */
+        margin: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .responsive-image {
+        width: 50%;
+        height: auto;
+    }
+    @media (max-width: 768px) {
+        .image {
+            flex-basis: calc(50% - 20px); /* Affichage sur 2 colonnes pour tablettes et petits écrans */
+        }
+    }
+    @media (max-width: 480px) {
+        .image {
+            flex-basis: 100%; /* Affichage sur 1 colonne pour les écrans très petits */
+        }
+    }
+</style>
+{% endblock %}

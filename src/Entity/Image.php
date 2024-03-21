@@ -23,6 +23,10 @@ class Image
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
+    // Ajout du champ url
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,19 @@ class Image
     public function setDate(?\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    // Méthodes pour le champ url
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): static
+    {
+        $this->url = $url;
 
         return $this;
     }
