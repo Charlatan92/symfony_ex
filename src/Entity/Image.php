@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
@@ -15,17 +17,33 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    /**
+     * @Assert\NotBlank(message="Le titre ne peut pas être vide.")
+     */
     private ?string $titre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $auteur = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    /**
+     * @Assert\Date(message="La date doit être valide.")
+     * @Assert\GreaterThanOrEqual("2000-01-01", message="La date doit être après l'an 2000.")
+     */
     private ?\DateTimeInterface $date = null;
 
-    // Ajout du champ url
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
+
+    /**
+     * @var File|null
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "Veuillez uploader une image valide (jpeg, png, gif)."
+     * )
+     */
+    private $fichier;
 
     public function getId(): ?int
     {
@@ -77,6 +95,17 @@ class Image
     public function setUrl(?string $url): static
     {
         $this->url = $url;
+
+        return $this;
+    }
+    public function getFichier(): ?File
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(?File $fichier = null): self
+    {
+        $this->fichier = $fichier;
 
         return $this;
     }

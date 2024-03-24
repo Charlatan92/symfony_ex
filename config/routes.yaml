@@ -4,3 +4,7 @@ galerie:
     defaults: { page: 1 }
     requirements:
         page: '\d+'
+        
+galerie_add:
+    path: /Galerie/add
+    controller: App\Controller\GalerieController::add
